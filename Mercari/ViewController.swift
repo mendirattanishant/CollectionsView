@@ -4,20 +4,27 @@
 //
 
 import UIKit
+import AlamofireImage
+import Alamofire
 
 class ViewController: UICollectionViewController {
     
     fileprivate let reuseIdentifier = "ItemCell"
-    fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 80.0, right: 20.0)
     
+    fileprivate var json: [NSDictionary] = []
     fileprivate var contents: [[String: Any]] = []
     fileprivate let itemsPerRow: CGFloat = 3
+    fileprivate var photoUrl: [String] = []
+    fileprivate var price: [Int] = []
+    fileprivate var images: [UIImage?] = []
+    
+    fileprivate var onSale: [Bool] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.a
         loadData()
-        print(contents)
     }
     
     override func didReceiveMemoryWarning() {
@@ -33,9 +40,26 @@ class ViewController: UICollectionViewController {
                     let jsonResult: NSDictionary = try JSONSerialization.jsonObject(with: jsonData as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
                     if let people : [NSDictionary] = jsonResult["data"] as? [NSDictionary] {
                         for person: NSDictionary in people {
+                            json.append(person)
                             for (name,value) in person {
                                 print("\(name) , \(value)")
-                                contents.append(person as! [String : Any])
+                                if let photo = name as? String {
+                                    if photo == "photo" {
+                                        photoUrl.append(value as! String)
+                                        images.append(nil)
+                                    }
+                                    if photo == "price" {
+                                        price.append(value as! Int)
+                                    }
+                                    if photo == "status" {
+                                        if value as! String == "sold_out" {
+                                            onSale.append(true)
+                                        } else {
+                                            onSale.append(false)
+                                        }
+                                        
+                                    }
+                                }
                             }
                         }
                     }
@@ -53,13 +77,13 @@ class ViewController: UICollectionViewController {
 extension ViewController {
     //1
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return contents.count
+        return 1
     }
     
     //2
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
-        return contents[section].count
+        return json.count
     }
     
     //3
@@ -68,11 +92,29 @@ extension ViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
                                                       for: indexPath) as! ItemCell
         //2
+        cell.imageView.image = nil
+        cell.soldimageView.image = nil
         
-        cell.backgroundColor = UIColor.black
-        //3
-        //cell.imageView.image = flickrPhoto.thumbnail
-        
+        cell.price.text = "$"+String(price[indexPath.item])
+        if let image = images[indexPath.item] {
+            cell.imageView.image = image
+        } else if let url = URL(string: photoUrl[indexPath.item]) {
+            getDataFromUrl(url: url) { (data, response, error)  in
+                guard let data = data, error == nil else { return }
+                print(response?.suggestedFilename ?? url.lastPathComponent)
+                print("Download Finished")
+                DispatchQueue.main.async() { () -> Void in
+                    let image = UIImage(data: data)
+                    self.images[indexPath.item] = image!
+                    cell.imageView.image = image
+                }
+            }
+        }
+        if self.onSale[indexPath.item] == true {
+            cell.soldimageView.image = UIImage(named: "sold")!
+        }
+        cell.updateUI()
+        cell.layoutIfNeeded()
         return cell
     }
 }
@@ -113,16 +155,5 @@ extension ViewController {
             (data, response, error) in
             completion(data, response, error)
             }.resume()
-    }
-    func downloadImage(url: URL) {
-        print("Download Started")
-        getDataFromUrl(url: url) { (data, response, error)  in
-            guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
-            print("Download Finished")
-            DispatchQueue.main.async() { () -> Void in
-                //self.imageView.image = UIImage(data: data)
-            }
-        }
     }
 }
