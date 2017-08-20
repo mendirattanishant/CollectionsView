@@ -10,6 +10,7 @@
 		0F4E16AD1F47560700E2323C /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E16AB1F47560700E2323C /* AppColor.swift */; };
 		0F4E16AE1F47560700E2323C /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E16AC1F47560700E2323C /* ItemCell.swift */; };
 		0F4E16B01F48AC2300E2323C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F4E16AF1F48AC2300E2323C /* Main.storyboard */; };
+		0F4E16B21F4A335700E2323C /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E16B11F4A335700E2323C /* ServerUtils.swift */; };
 		ECE7CAD61EC290350038B6A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE7CAD51EC290350038B6A5 /* AppDelegate.swift */; };
 		ECE7CAD81EC290350038B6A5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE7CAD71EC290350038B6A5 /* ViewController.swift */; };
 		ECE7CADD1EC290350038B6A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECE7CADC1EC290350038B6A5 /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 		0F4E16AB1F47560700E2323C /* AppColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppColor.swift; path = "../../../Downloads/Sem 4 downloads/mercari-ios-test-master/Mercari/AppColor.swift"; sourceTree = "<group>"; };
 		0F4E16AC1F47560700E2323C /* ItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemCell.swift; path = "../../../Downloads/Sem 4 downloads/mercari-ios-test-master/Mercari/ItemCell.swift"; sourceTree = "<group>"; };
 		0F4E16AF1F48AC2300E2323C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		0F4E16B11F4A335700E2323C /* ServerUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
 		ECE7CAD21EC290350038B6A5 /* Mercari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mercari.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECE7CAD51EC290350038B6A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ECE7CAD71EC290350038B6A5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				0F4E16AB1F47560700E2323C /* AppColor.swift */,
 				0F4E16AC1F47560700E2323C /* ItemCell.swift */,
 				0F4E16AF1F48AC2300E2323C /* Main.storyboard */,
+				0F4E16B11F4A335700E2323C /* ServerUtils.swift */,
 			);
 			path = Mercari;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F4E16AE1F47560700E2323C /* ItemCell.swift in Sources */,
+				0F4E16B21F4A335700E2323C /* ServerUtils.swift in Sources */,
 				ECE7CAD81EC290350038B6A5 /* ViewController.swift in Sources */,
 				ECE7CAD61EC290350038B6A5 /* AppDelegate.swift in Sources */,
 				0F4E16AD1F47560700E2323C /* AppColor.swift in Sources */,

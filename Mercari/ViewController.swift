@@ -4,8 +4,6 @@
 //
 
 import UIKit
-import AlamofireImage
-import Alamofire
 
 class ViewController: UICollectionViewController {
     
@@ -29,7 +27,6 @@ class ViewController: UICollectionViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func loadData() {
@@ -74,24 +71,20 @@ class ViewController: UICollectionViewController {
 }
 
 // MARK: - UICollectionViewDataSource
+
 extension ViewController {
-    //1
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    //2
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
         return json.count
     }
     
-    //3
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //1
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
                                                       for: indexPath) as! ItemCell
-        //2
         cell.imageView.image = nil
         cell.soldimageView.image = nil
         
@@ -99,7 +92,7 @@ extension ViewController {
         if let image = images[indexPath.item] {
             cell.imageView.image = image
         } else if let url = URL(string: photoUrl[indexPath.item]) {
-            getDataFromUrl(url: url) { (data, response, error)  in
+            serverUtils.getDataFromUrl(url: url) { (data, response, error)  in
                 guard let data = data, error == nil else { return }
                 print(response?.suggestedFilename ?? url.lastPathComponent)
                 print("Download Finished")
@@ -119,13 +112,12 @@ extension ViewController {
     }
 }
 
+// MARK: - UICollectionViewDelegate Methods
 
 extension ViewController : UICollectionViewDelegateFlowLayout {
-    //1
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //2
         let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
         let availableWidth = view.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
@@ -133,27 +125,17 @@ extension ViewController : UICollectionViewDelegateFlowLayout {
         return CGSize(width: widthPerItem, height: widthPerItem)
     }
     
-    //3
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
     }
     
-    // 4
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
-    }
-}
-
-
-extension ViewController {
-    func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
-        URLSession.shared.dataTask(with: url) {
-            (data, response, error) in
-            completion(data, response, error)
-            }.resume()
     }
 }
